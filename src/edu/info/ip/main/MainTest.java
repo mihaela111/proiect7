@@ -31,6 +31,6 @@ public class MainTest {
 //        displayImage(grayLevels);
 //        saveImage(grayLevels,"./out_images/gray_level_100_20_10_200.png", "png");
 
-        displayImage(pixelate(inputImg,4));
+        displayImage(pixelate(inputImg,64));
     }
 }
