@@ -27,8 +27,10 @@ public class MainTest {
 
 //        displayImage(simpleSaltPepperNoise(inputImg,0.03d));
 
-        BufferedImage grayLevels = grayLevelGenerator(100,20,10,200);
-        displayImage(grayLevels);
-        saveImage(grayLevels,"./out_images/gray_level_100_20_10_200.png", "png");
+//        BufferedImage grayLevels = grayLevelGenerator(100,20,10,200);
+//        displayImage(grayLevels);
+//        saveImage(grayLevels,"./out_images/gray_level_100_20_10_200.png", "png");
+
+        displayImage(pixelate(inputImg,4));
     }
 }
