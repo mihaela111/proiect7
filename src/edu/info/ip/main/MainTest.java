@@ -34,7 +34,15 @@ public class MainTest {
 
 //        displayImage(pixelate(inputImg,64));
 
-        displayImage(brightnessV1(inputImg,40), "Brightness V1");
-        displayImage(brightnessV2(inputImg,-40), "Brightness V2");
+//        displayImage(brightnessV1(inputImg,40), "Brightness V1");
+//        displayImage(brightnessV2(inputImg,-40), "Brightness V2");
+//        displayImage(brightnessV3(inputImg,40), "Brightness V3");
+//
+//        displayImage(contrast(inputImg,1.5f), "Contrast");
+
+        // combined action
+        BufferedImage brightness = brightnessV3(inputImg, -40);
+        BufferedImage contrast = contrast(brightness, 1.5f);
+        displayImage(contrast, "Brightness+Contrast");
     }
 }

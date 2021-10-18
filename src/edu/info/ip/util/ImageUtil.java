@@ -3,6 +3,8 @@ package edu.info.ip.util;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.LookupOp;
+import java.awt.image.ShortLookupTable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -240,6 +242,40 @@ public class ImageUtil {
                     outImg.getRaster().setSample(x,y,band, brightnessLUT[inGrayLevel]);
                 }
             }
+        return outImg;
+    }
+
+    public static BufferedImage brightnessV3(BufferedImage inImg, int offset){
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
+
+        short[] brightnessLUT = new short[256];
+
+        for (int i = 0; i < brightnessLUT.length; i++) {
+            brightnessLUT[i] = (short)constrain(i + offset);
+            System.out.print(brightnessLUT[i] + " ");
+        }
+
+        ShortLookupTable shortLookupTable = new ShortLookupTable(0, brightnessLUT);
+        LookupOp lookupOp = new LookupOp(shortLookupTable, null);
+        lookupOp.filter(inImg, outImg);
+
+        return outImg;
+    }
+
+    public static BufferedImage contrast(BufferedImage inImg, float scale){
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
+
+        short[] contrastLUT = new short[256];
+
+        for (int i = 0; i < contrastLUT.length; i++) {
+            contrastLUT[i] = (short)constrain(Math.round(i * scale));
+            System.out.print(contrastLUT[i] + " ");
+        }
+
+        ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
+        LookupOp lookupOp = new LookupOp(shortLookupTable, null);
+        lookupOp.filter(inImg, outImg);
+
         return outImg;
     }
 }
