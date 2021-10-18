@@ -48,6 +48,26 @@ public class ImageUtil {
         displayImage(img, "");
     }
 
+    public static BufferedImage applySettingsDlg(BufferedImage img, AbstractSettingsDialog dialog) {
+        if (img == null)
+            return null;
+        JFrame frame = new JFrame();
+
+        ImagePanel imagePanel = new ImagePanel();
+        imagePanel.setFitToScreen(false);
+        imagePanel.setImage(img);
+        frame.setContentPane(new JScrollPane(imagePanel));
+        frame.pack();
+        frame.setVisible(true);
+
+        dialog.setImagePanel(imagePanel);
+        dialog.pack();
+        dialog.setVisible(true);
+
+        frame.dispose();
+        return imagePanel.getImage();
+    }
+
     public static BufferedImage generateRandom(int width, int height) {
         BufferedImage img = null;
 
@@ -252,7 +272,7 @@ public class ImageUtil {
 
         for (int i = 0; i < brightnessLUT.length; i++) {
             brightnessLUT[i] = (short)constrain(i + offset);
-            System.out.print(brightnessLUT[i] + " ");
+//            System.out.print(brightnessLUT[i] + " ");
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, brightnessLUT);
@@ -268,8 +288,8 @@ public class ImageUtil {
         short[] contrastLUT = new short[256];
 
         for (int i = 0; i < contrastLUT.length; i++) {
-            contrastLUT[i] = (short)constrain(Math.round(i * scale));
-            System.out.print(contrastLUT[i] + " ");
+            contrastLUT[i] = (short)constrain(Math.round(scale * i));
+//            System.out.print(contrastLUT[i] + " ");
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);

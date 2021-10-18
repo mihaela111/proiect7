@@ -1,5 +1,7 @@
 package edu.info.ip.main;
 
+import edu.info.ip.util.BrightnessDlg;
+
 import java.awt.image.BufferedImage;
 
 import static edu.info.ip.util.ImageUtil.*;
@@ -41,8 +43,11 @@ public class MainTest {
 //        displayImage(contrast(inputImg,1.5f), "Contrast");
 
         // combined action
-        BufferedImage brightness = brightnessV3(inputImg, -40);
-        BufferedImage contrast = contrast(brightness, 1.5f);
-        displayImage(contrast, "Brightness+Contrast");
+//        BufferedImage brightness = brightnessV3(inputImg, -40);
+//        BufferedImage contrast = contrast(brightness, 1.5f);
+//        displayImage(contrast, "Brightness+Contrast");
+
+        BufferedImage testImg = applySettingsDlg(inputImg, new BrightnessDlg());
+        displayImage(testImg);
     }
 }
