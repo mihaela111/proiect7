@@ -59,8 +59,10 @@ public class MainTest {
 
 //        displayImage(contrastGamma(inputImg, 0.5));
 
-        BufferedImage testImg = applySettingsDlg(inputImg, new GammaDlg());
-        displayImage(testImg, "Gamma Contrast");
+//        BufferedImage testImg = applySettingsDlg(inputImg, new GammaDlg());
+//        displayImage(testImg, "Gamma Contrast");
+
+        displayImage(contrastStretch(inputImg));
     }
 
 }

@@ -328,13 +328,52 @@ public class ImageUtil {
 
         for (int i = 0; i < contrastLUT.length; i++) {
 
-            double a = i / 255.0; // scaled to [0..1]
+            double a = i / 255.0; // scale to [0.0 ... 1.0]
             double b = Math.pow(a, 1.0/gamma);
-            double c = b * 255.0;
+            double c = b * 255.0; // scale to [0 ... 255]
 
             contrastLUT[i] = (short)constrain((int)Math.round(c));
 
             System.out.print(contrastLUT[i] + " ");
+        }
+
+        ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
+        LookupOp lookupOp = new LookupOp(shortLookupTable, null);
+        lookupOp.filter(inImg, outImg);
+
+        return outImg;
+    }
+
+    public static int normalize(int val, int oldMin, int oldMax, int newMin, int newMax){
+        double c = 1.0 * (newMax - newMin)/(oldMax - oldMin);
+        return (int)Math.round(c * (val-oldMin) + newMin);
+    }
+
+    public static BufferedImage contrastStretch(BufferedImage inImg){
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
+
+        short[][] contrastLUT = new short[inImg.getRaster().getNumBands()][256];
+
+        for (int band = 0; band < inImg.getRaster().getNumBands(); band++) {
+            int max = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
+            int pixel;
+
+            // find max and min
+            for (int y = 0; y < inImg.getHeight(); y++)
+                for (int x = 0; x < inImg.getWidth(); x++) {
+                    pixel = inImg.getRaster().getSample(x,y,band);
+                    if(pixel > max)
+                        max = pixel;
+                    if(pixel < min)
+                        min = pixel;
+                }
+
+            System.out.println("min= " + min + " max= " + max);
+
+            for (int i = min; i <= max; i++) {
+                contrastLUT[band][i] = (short)normalize(i,min, max,0,255);
+            }
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
