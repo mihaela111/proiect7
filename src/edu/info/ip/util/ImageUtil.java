@@ -320,4 +320,27 @@ public class ImageUtil {
 
         return outImg;
     }
+
+    public static BufferedImage contrastGamma(BufferedImage inImg, double gamma){
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
+
+        short[] contrastLUT = new short[256];
+
+        for (int i = 0; i < contrastLUT.length; i++) {
+
+            double a = i / 255.0; // scaled to [0..1]
+            double b = Math.pow(a, 1.0/gamma);
+            double c = b * 255.0;
+
+            contrastLUT[i] = (short)constrain((int)Math.round(c));
+
+            System.out.print(contrastLUT[i] + " ");
+        }
+
+        ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
+        LookupOp lookupOp = new LookupOp(shortLookupTable, null);
+        lookupOp.filter(inImg, outImg);
+
+        return outImg;
+    }
 }
