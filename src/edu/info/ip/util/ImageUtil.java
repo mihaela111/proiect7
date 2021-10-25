@@ -3,6 +3,7 @@ package edu.info.ip.util;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.Kernel;
 import java.awt.image.LookupOp;
 import java.awt.image.ShortLookupTable;
 import java.io.File;
@@ -404,6 +405,10 @@ public class ImageUtil {
 
     public static BufferedImage colorToGray(BufferedImage inImg, GrayTransforms version){
         BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),BufferedImage.TYPE_BYTE_GRAY);
+        if(inImg.getType() == BufferedImage.TYPE_BYTE_GRAY){
+            inImg.copyData(outImg.getRaster());
+            return outImg;
+        }
 
         for (int y = 0; y < inImg.getHeight(); y++)
             for (int x = 0; x < inImg.getWidth(); x++) {
@@ -453,6 +458,39 @@ public class ImageUtil {
                     outImg.setRGB(x,y,pixel);
                 }
             }
+        return outImg;
+    }
+
+    public static BufferedImage convolutionSimple(BufferedImage inImg, Kernel kernel) {
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(), inImg.getHeight(), inImg.getType());
+
+        // kernel patratic
+        int kWidth = kernel.getWidth();
+        int kRadius = kWidth / 2;
+        float[] kData = kernel.getKernelData(null);
+        int kDataIndex = 0;
+
+        for (int band = 0; band < inImg.getRaster().getNumBands() && band < 3; band++) {
+
+            for (int y = 0; y < inImg.getHeight(); y++)
+                for (int x = 0; x < inImg.getWidth(); x++) {
+                    float gray = 0;
+                    kDataIndex = 0;
+
+                    for (int ky = -kRadius; ky <= kRadius; ky++)
+                        for (int kx = -kRadius; kx <= kRadius; kx++) {
+                            if ((x + kx) < 0 || ((x + kx) > inImg.getWidth() - 1) || (y + ky) < 0 || ((y + ky) > inImg.getHeight() - 1)) {
+//                                gray += 0;
+                                gray += kData[kDataIndex] * inImg.getRaster().getSample(x, y, band);
+                            } else {
+                                gray += kData[kDataIndex] * inImg.getRaster().getSample(x + kx, y + ky, band);
+                            }
+                            kDataIndex++;
+                        }
+                    outImg.getRaster().setSample(x, y, band, constrain(Math.round(gray)));
+                }
+        }
+
         return outImg;
     }
 }
