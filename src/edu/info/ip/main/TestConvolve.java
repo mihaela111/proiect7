@@ -32,18 +32,19 @@ public class TestConvolve {
         Kernel kernel1 = new Kernel(3,3, avg);
         Kernel kernel2 = new Kernel(kSize, kSize, avg2);
 
-        displayImage(convolutionSimple(inputImg, kernel1), "AVG 3x3");
+//        displayImage(convolutionSimple(inputImg, kernel1), "AVG 3x3");
 
-//        displayImage(convolutionSimple(inputImg, kernel2), "AVG " + kSize + "x" + kSize);
+        displayImage(convolutionSimple(inputImg, kernel2), "AVG " + kSize + "x" + kSize);
+        displayImage(convolution(inputImg, kernel2), "AVG " + kSize + "x" + kSize);
 
-        displayImage(convolutionSimple(inputImg, new Kernel(3,3, sharpening)), "Sharpening 3x3");
-
-        BufferedImage blurImg = convolutionSimple(inputImg, new Kernel(3,3,avg));
-        BufferedImage grayImg = colorToGray(blurImg, GrayTransforms.GRAY_TRANSFORMS_PAL);
-        BufferedImage edgeImg = convolutionSimple(grayImg, new Kernel(3,3, edge));
-        displayImage(edgeImg, "Edge 3x3");
-
-        BufferedImage contrastImg = contrastStretch(edgeImg);
-        displayImage(contrastImg, "Contrast Stretch");
+//        displayImage(convolutionSimple(inputImg, new Kernel(3,3, sharpening)), "Sharpening 3x3");
+//
+//        BufferedImage blurImg = convolutionSimple(inputImg, new Kernel(3,3,avg));
+//        BufferedImage grayImg = colorToGray(blurImg, GrayTransforms.GRAY_TRANSFORMS_PAL);
+//        BufferedImage edgeImg = convolutionSimple(grayImg, new Kernel(3,3, edge));
+//        displayImage(edgeImg, "Edge 3x3");
+//
+//        BufferedImage contrastImg = contrastStretch(edgeImg);
+//        displayImage(contrastImg, "Contrast Stretch");
     }
 }
