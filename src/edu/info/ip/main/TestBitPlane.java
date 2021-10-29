@@ -6,7 +6,8 @@ import static edu.info.ip.util.ImageUtil.*;
 
 public class TestBitPlane {
     public static void main(String[] args) {
-                BufferedImage inputImg= loadImage("./test_images/lena_color_512.bmp");
+        
+        BufferedImage inputImg= loadImage("./test_images/lena_gray_512.bmp");
 
         displayImage(inputImg, "Original image");
 
