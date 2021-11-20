@@ -1,8 +1,5 @@
 package edu.info.ip.main;
 
-import edu.info.ip.util.BrightnessDlg;
-import edu.info.ip.util.BrightnessRGBDlg;
-import edu.info.ip.util.GammaDlg;
 import edu.info.ip.util.ThresholdDlg;
 
 import java.awt.image.BufferedImage;
@@ -87,7 +84,7 @@ public class MainTest {
         thresholdImg = applySettingsDlg(contrastImg, new ThresholdDlg());
         displayImage(thresholdImg, "Threshold");
 
-        negativeImg = negativate(thresholdImg);
+        negativeImg = negative(thresholdImg);
         displayImage(negativeImg, "Negative");
 
         maskedImg = applyMask(inputImg,negativeImg);

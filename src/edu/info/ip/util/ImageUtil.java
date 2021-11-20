@@ -90,10 +90,13 @@ public class ImageUtil {
             for (int x = 0; x < inImg.getWidth(); x++) {
                 int pixel = inImg.getRGB(x, y);
 
-                int alpha = (pixel & 0xff000000) >> 24; //(pixel >> 24) & 0xff;
-                int red = (pixel & 0x00ff0000) >> 16; //(pixel >> 16) & 0xff;
-                int green = (pixel & 0x0000ff00) >> 8;  //(pixel >> 8) & 0xff;
-                int blue = (pixel & 0x000000ff);       //pixel & 0xff;
+                int alpha = (pixel & 0xff000000) >> 24; // (pixel >> 24) & 0xff;
+                int red =   (pixel & 0x00ff0000) >> 16; // (pixel >> 16) & 0xff;
+                int green = (pixel & 0x0000ff00) >> 8;  // (pixel >> 8) & 0xff;
+                int blue =  (pixel & 0x000000ff);       // pixel & 0xff;
+
+                //recompose
+//                int pixel2 = 0x00000000 | (a << 24) | (r << 16) | (g << 8) | b;
 
                 if (y == 0)
                     System.out.print(alpha + " " + red + " " + green + " " + blue + " ; ");
@@ -115,6 +118,19 @@ public class ImageUtil {
 
             }
         return outImg;
+    }
+
+    public static int colorFromRGBA(int red, int green, int blue, int alpha) {
+        int newPixel = 0;
+        newPixel += alpha;
+        newPixel = newPixel << 8;
+        newPixel += red;
+        newPixel = newPixel << 8;
+        newPixel += green;
+        newPixel = newPixel << 8;
+        newPixel += blue;
+
+        return newPixel;
     }
 
     public static BufferedImage extractBandV2(BufferedImage inImg, int band) {
@@ -387,7 +403,7 @@ public class ImageUtil {
         return outImg;
     }
 
-    public static BufferedImage negativate(BufferedImage inImg){
+    public static BufferedImage negative(BufferedImage inImg){
         BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
 
         short[] negativeLUT = new short[256];
@@ -438,7 +454,7 @@ public class ImageUtil {
 
         for (int i = 0; i < thresholdLUT.length; i++) {
             thresholdLUT[i] = (short)((i<threshold) ? 0 : 255);
-            System.out.print(thresholdLUT[i] + " ");
+//            System.out.print(thresholdLUT[i] + " ");
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, thresholdLUT);
@@ -518,7 +534,7 @@ public class ImageUtil {
         for (int i = 0; i < histogram.length; i++) {
             histogram[i] = histogram[i] / totalNrOfPixels;
         }
-        System.out.println(Arrays.toString(histogram));
+//        System.out.println(Arrays.toString(histogram));
 
         return histogram;
     }
@@ -621,5 +637,52 @@ public class ImageUtil {
         op.filter(src,dst);
 
         return dst;
+    }
+
+    public static int otsuTreshold(BufferedImage src) {
+        int[] histogram = new int[256];
+        int total = src.getHeight() * src.getWidth();
+
+        for (int y = 0; y < src.getHeight(); y++)
+            for (int x = 0; x < src.getWidth(); x++) {
+                int gray = src.getRaster().getSample(x,y,0);
+                histogram[gray]++;
+            }
+
+        float sum = 0;
+        for (int i = 0; i < 256; i++) {
+            sum += i * histogram[i];
+        }
+
+        float sumB = 0;
+        int wB = 0;
+        int wF = 0;
+
+        float varMax = 0;
+        int threshold = 0;
+
+        for (int i = 0; i < 256; i++) {
+            wB += histogram[i];
+            if (wB == 0) {
+                continue;
+            }
+            wF = total - wB;
+
+            if (wF == 0) {
+                break;
+            }
+
+            sumB += i * histogram[i];
+            float mB = sumB / wB;
+            float mF = (sum - sumB) / wF;
+
+            float varBetween = (float) wB * (float) wF * (mB - mF) * (mB - mF);
+
+            if (varBetween > varMax) {
+                varMax = varBetween;
+                threshold = i;
+            }
+        }
+        return threshold;
     }
 }
