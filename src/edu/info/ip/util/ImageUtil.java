@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
-
+//test
 public class ImageUtil {
 
     public enum GrayTransforms {GRAY_TRANSFORMS_GREEN, GRAY_TRANSFORMS_SQRT, GRAY_TRANSFORMS_AVG, GRAY_TRANSFORMS_USUAL, GRAY_TRANSFORMS_PAL}
