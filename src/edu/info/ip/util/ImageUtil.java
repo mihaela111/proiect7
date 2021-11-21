@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
-//test
+
 public class ImageUtil {
 
     public enum GrayTransforms {GRAY_TRANSFORMS_GREEN, GRAY_TRANSFORMS_SQRT, GRAY_TRANSFORMS_AVG, GRAY_TRANSFORMS_USUAL, GRAY_TRANSFORMS_PAL}
@@ -301,6 +301,59 @@ public class ImageUtil {
 
         return outImg;
     }
+
+    public static BufferedImage contrastComprimare(BufferedImage inImg){
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
+
+        short[] contrastLUT = new short[256];
+
+        double scale=(contrastLUT.length-1)/Math.log(contrastLUT.length);
+
+
+        for (int i = 0; i < contrastLUT.length; i++) {
+
+            double u=Math.log(i+1);
+
+            contrastLUT[i] = (short)constrain(Math.round((int)(scale * u)));
+
+//            System.out.print(contrastLUT[i] + " ");
+        }
+
+        ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
+        LookupOp lookupOp = new LookupOp(shortLookupTable, null);
+        lookupOp.filter(inImg, outImg);
+
+        return outImg;
+    }
+
+
+    public static BufferedImage contrastExpandare(BufferedImage inImg, int baza){
+        BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
+
+        short[] contrastLUT = new short[256];
+       // double scale=(contrastLUT.length-1)/Math.log(contrastLUT.length);
+
+        for (int i = 0; i < contrastLUT.length; i++) {
+
+            double u=(contrastLUT.length-1)* (Math.pow(baza,i)-1)/(Math.pow(baza,contrastLUT.length-1)-1);
+
+
+
+            contrastLUT[i] = (short)constrain(Math.round((int)(u)));
+         //   contrastLUT[i] = (short)constrain(Math.round((int)(scale*u)));
+//            System.out.print(contrastLUT[i] + " ");
+        }
+
+        ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
+        LookupOp lookupOp = new LookupOp(shortLookupTable, null);
+        lookupOp.filter(inImg, outImg);
+
+        return outImg;
+    }
+
+
+
+
 
     public static BufferedImage brightnessRGB(BufferedImage inImg, int offsetR, int offsetG, int offsetB){
         BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
