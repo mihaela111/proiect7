@@ -337,11 +337,9 @@ public class ImageUtil {
 
             double u=(contrastLUT.length-1)* (Math.pow(baza,i)-1)/(Math.pow(baza,contrastLUT.length-1)-1);
 
-
-
-            contrastLUT[i] = (short)constrain(Math.round((int)(u)));
+            contrastLUT[i] = (short)constrain(Math.round((int)u));
          //   contrastLUT[i] = (short)constrain(Math.round((int)(scale*u)));
-//            System.out.print(contrastLUT[i] + " ");
+
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
