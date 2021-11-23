@@ -341,7 +341,7 @@ public class ImageUtil {
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
         LookupOp lookupOp = new LookupOp(shortLookupTable, null);
         lookupOp.filter(inImg, outImg);
-
+//
         return outImg;
     }
 
