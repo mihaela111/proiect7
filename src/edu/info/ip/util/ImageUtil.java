@@ -335,9 +335,9 @@ public class ImageUtil {
 
         for (int i = 0; i < contrastLUT.length; i++) {
 
-            double u=(contrastLUT.length-1)* (Math.pow(baza,i)-1)/(Math.pow(baza,contrastLUT.length-1)-1);
+            //double u=(contrastLUT.length-1)* (Math.pow(baza,i/255)-1)/(Math.exp( 1.0)-1.0);
 
-            contrastLUT[i] = (short)constrain(Math.round((int)u));
+            contrastLUT[i] = (short)(255.0*(Math.exp(i/255.0)-1.0)/(Math.exp(1.0)-1.0));
          //   contrastLUT[i] = (short)constrain(Math.round((int)(scale*u)));
 
         }

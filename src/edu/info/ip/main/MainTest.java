@@ -14,9 +14,9 @@ public class MainTest {
         BufferedImage inputImg= loadImage("./test_images/lena_gray_512.bmp");
         displayImage(inputImg, "Original image");
 
-        displayImage(contrast(inputImg,1.5f), "Contrast");
+       // displayImage(contrast(inputImg,1.5f), "Contrast");
 
-        displayImage(contrastExpandare(inputImg, 10), "Contrast expandare");
+        displayImage(contrastExpandare(inputImg, 1), "Contrast expandare");
         displayImage(contrastComprimare(inputImg), "Contrast comprimare");
 
 
