@@ -316,7 +316,6 @@ public class ImageUtil {
 
             contrastLUT[i] = (short)constrain(Math.round((int)(scale * u)));
 
-//            System.out.print(contrastLUT[i] + " ");
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);
@@ -331,15 +330,12 @@ public class ImageUtil {
         BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
 
         short[] contrastLUT = new short[256];
-       // double scale=(contrastLUT.length-1)/Math.log(contrastLUT.length);
+        double domain=contrastLUT.length-1;
+
 
         for (int i = 0; i < contrastLUT.length; i++) {
 
-            //double u=(contrastLUT.length-1)* (Math.pow(baza,i/255)-1)/(Math.exp( 1.0)-1.0);
-
-            contrastLUT[i] = (short)(255.0*(Math.exp(i/255.0)-1.0)/(Math.exp(1.0)-1.0));
-         //   contrastLUT[i] = (short)constrain(Math.round((int)(scale*u)));
-
+            contrastLUT[i] = (short)(domain*(Math.exp(i/domain)-1.0)/(Math.exp(baza)-1.0));
         }
 
         ShortLookupTable shortLookupTable = new ShortLookupTable(0, contrastLUT);

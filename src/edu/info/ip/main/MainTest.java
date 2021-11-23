@@ -16,8 +16,9 @@ public class MainTest {
 
        // displayImage(contrast(inputImg,1.5f), "Contrast");
 
-        displayImage(contrastExpandare(inputImg, 1), "Contrast expandare");
+
         displayImage(contrastComprimare(inputImg), "Contrast comprimare");
+        displayImage(contrastExpandare(inputImg, 3), "Contrast expandare");
 
 
 
