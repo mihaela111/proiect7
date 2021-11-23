@@ -302,7 +302,7 @@ public class ImageUtil {
         return outImg;
     }
 
-    public static BufferedImage contrastComprimare(BufferedImage inImg){
+    public static BufferedImage contrastComprimare(BufferedImage inImg, int val){
         BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
 
         short[] contrastLUT = new short[256];
@@ -326,7 +326,7 @@ public class ImageUtil {
     }
 
 
-    public static BufferedImage contrastExpandare(BufferedImage inImg, int baza){
+    public static BufferedImage contrastExpandare(BufferedImage inImg, float baza){
         BufferedImage outImg = new BufferedImage(inImg.getWidth(),inImg.getHeight(),inImg.getType());
 
         short[] contrastLUT = new short[256];
