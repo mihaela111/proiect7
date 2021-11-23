@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import static edu.info.ip.util.ImageUtil.*;
 
 public class MainTest {
-    //test
+
 
     public static void main(String[] args) {
 
